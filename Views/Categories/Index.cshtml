@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Producto_categoria.Models.Category>
+
+@{
+    ViewData["Title"] = "Categorías";
+}
+
+<div class="page-container">
+    <div class="page-header">
+        <div>
+            <h1>Categorías</h1>
+            <p class="page-sub">Gestiona las clasificaciones de productos en tu tienda.</p>
+        </div>
+        <a class="btn btn-primary" asp-action="Create">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+            Crear nueva categoría
+        </a>
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="empty-state">
+            <div class="empty-icon">📂</div>
+            <h3>No hay categorías registradas</h3>
+            <p>Empieza registrando una nueva categoría para organizar tu inventario.</p>
+            <a class="btn btn-primary" asp-action="Create">Crear categoría</a>
+        </div>
+    }
+    else
+    {
+        <div class="grid-list">
+            @foreach (var item in Model)
+            {
+                <div class="list-card">
+                    <div class="card-main">
+                        <div class="card-avatar">
+                            @(string.IsNullOrWhiteSpace(item.Name) ? "?" : item.Name[0].ToString().ToUpper())
+                        </div>
+                        <div class="card-details">
+                            <h3>@(item.Name ?? "Sin nombre")</h3>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <a class="btn-action edit" asp-action="Edit" asp-route-id="@item.CategoryId">Editar</a>
+                        <a class="btn-action details" asp-action="Details" asp-route-id="@item.CategoryId">Detalles</a>
+                        <a class="btn-action delete" asp-action="Delete" asp-route-id="@item.CategoryId">Eliminar</a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

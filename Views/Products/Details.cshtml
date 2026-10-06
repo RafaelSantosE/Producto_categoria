@@ -1,0 +1,81 @@
+﻿@model Producto_categoria.Models.Product
+
+@{
+    ViewData["Title"] = "Detalles del producto";
+    var culturaCol = new System.Globalization.CultureInfo("es-CO");
+}
+
+<div class="page-container">
+    <div class="page-header">
+        <div>
+            <h1>Detalles del Producto</h1>
+            <p class="page-sub">Consulta la información registrada para este artículo.</p>
+        </div>
+        <a class="link-arrow" asp-action="Index">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" /></svg>
+            Volver a la lista
+        </a>
+    </div>
+
+    <div class="form-container" style="max-width: 650px;">
+        <div class="form-card">
+            <!-- Encabezado con avatar e información rápida -->
+            <div class="card-main" style="margin-bottom: 1.5rem;">
+                <div class="card-avatar" style="width: 60px; height: 60px; font-size: 1.6rem;">
+                    @(string.IsNullOrWhiteSpace(Model?.Name) ? "?" : Model.Name[0].ToString().ToUpper())
+                </div>
+                <div class="card-details">
+                    <span class="product-badge" style="margin-bottom: 0.3rem; display: inline-block;">
+                        @(Model?.Category?.Name ?? "Sin categoría")
+                    </span>
+                    <h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; color: var(--text-primary);">
+                        @(Model?.Name ?? "Sin nombre")
+                    </h2>
+                </div>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid var(--border-color); margin-bottom: 1.5rem;" />
+
+            <!-- Lista de propiedades -->
+            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+                <div class="form-group">
+                    <span class="form-label">ID del Producto</span>
+                    <div class="form-input" style="background-color: transparent; border-color: var(--border-color);">
+                        #@Model?.ProductId
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span class="form-label">Nombre del Producto</span>
+                    <div class="form-input" style="background-color: transparent; border-color: var(--border-color);">
+                        @(Model?.Name ?? "N/A")
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span class="form-label">Precio</span>
+                    <div class="form-input" style="background-color: transparent; border-color: var(--border-color); font-family: 'Space Mono', monospace; font-weight: 700; color: var(--accent-red);">
+                        @(Model?.Price.ToString("C0", culturaCol) ?? "$0")
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span class="form-label">Categoría Asignada</span>
+                    <div class="form-input" style="background-color: transparent; border-color: var(--border-color);">
+                        @(Model?.Category?.Name ?? "Sin categoría")
+                    </div>
+                </div>
+            </div>
+
+            <!-- Acciones de la vista -->
+            <div class="card-actions list-actions-margin" style="margin-top: 2rem;">
+                <a asp-action="Edit" asp-route-id="@Model?.ProductId" class="btn-action edit" style="text-align: center;">
+                    Editar
+                </a>
+                <a asp-action="Index" class="btn-action details" style="text-align: center;">
+                    Volver a la lista
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
